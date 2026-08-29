@@ -1,0 +1,30 @@
+/* login.css - não interfere no seu style.css */
+.login-wrapper {
+  min-height: 100vh; display: grid; place-items: center;
+  padding: 20px; position: relative; z-index: 1;
+}
+.login-card {
+  width: min(92%, 420px); background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 36px 32px; box-shadow: 0 30px 80px rgba(0,0,0,.6);
+}
+.login-card h1 { font-size: 36px; margin: 12px 0 8px; }
+.login-card .sub { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; }
+.login-label {
+  font-size: 11px; letter-spacing: 1px; color: var(--text-dim);
+  text-transform: uppercase; font-weight: 700; display: block; margin: 16px 0 8px;
+}
+.login-input {
+  width: 100%; padding: 14px; background: #1a1f2a; color: white;
+  border: 1px solid var(--border); border-radius: 10px; outline: none;
+}
+.login-input:focus { border-color: var(--primary); }
+.login-submit { width: 100%; margin-top: 24px; }
+
+.login-result {
+  margin-top: 20px; background: #1a1f2a; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; display: none;
+}
+.login-result.show { display: block; }
+.login-result.error { border-color: #ff4d4d; }
+.login-result.success { border-color: var(--primary); }

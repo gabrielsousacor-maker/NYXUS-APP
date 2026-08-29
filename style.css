@@ -1,0 +1,427 @@
+/* Remove margens e espaçamentos padrão de todos os elementos. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Define as cores principais do projeto NIXUS. */
+:root {
+    /* Fundo principal. */
+    --bg: #0A0E1A;
+    /* Fundo dos cards. */
+    --bg-card: #141A2A;
+    /* Cor dos textos principais. */
+    --text: #F5F5F0;
+    /* Cor dos textos secundários. */
+    --text-dim: #9fa6b5;
+    /* Cor principal - lima tóxico. */
+    --primary: #D6FF00;
+    /* Cor secundária - ciano. */
+    --secondary: #00FFC2;
+    /* Cor das bordas. */
+    --border: rgba(255, 255, 255, 0.1);
+    /* Arredondamento padrão. */
+    --radius: 16px;
+}
+
+/* Define o comportamento geral da página. */
+body {
+    /* Fonte mais moderna e legível. */
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Define o fundo animado. */
+.animation-background {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a2340, var(--bg) 75%);
+}
+
+/* Cria os objetos que representam as animações. */
+.animation-object {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.22;
+    will-change: transform;
+    transition: all 1.5s ease;
+}
+
+/* Define a primeira esfera visual. */
+#animationOne {
+    left: 10%;
+    top: 25%;
+    background: #334dff;
+    animation: moveOne 7s infinite alternate ease-in-out;
+}
+
+/* Define a segunda esfera visual. */
+#animationTwo {
+    right: 15%;
+    top: 20%;
+    background: var(--primary);
+    animation: moveTwo 8s infinite alternate ease-in-out;
+}
+
+/* Define a terceira esfera visual. */
+#animationThree {
+    left: 40%;
+    bottom: 5%;
+    background: var(--secondary);
+    animation: moveThree 9s infinite alternate ease-in-out;
+}
+
+/* Define o movimento da primeira animação. */
+@keyframes moveOne {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(120px, 70px) scale(1.4); }
+}
+
+/* Define o movimento da segunda animação. */
+@keyframes moveTwo {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(-100px, 80px) scale(1.3); }
+}
+
+/* Define o movimento da terceira animação. */
+@keyframes moveThree {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(80px, -100px) scale(1.5); }
+}
+
+/* Cria uma camada escura sobre o fundo. */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 14, 26, 0.6);
+    z-index: -2;
+}
+
+/* Define o cabeçalho. */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    padding: 0 6%;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10, 14, 26, 0.7);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Define o logotipo. */
+.logo {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--primary);
+}
+
+/* Define o menu. */
+nav {
+    display: flex;
+    gap: 28px;
+}
+
+/* Define os links. */
+nav a {
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+/* Define o comportamento ao passar o mouse. */
+nav a:hover {
+    color: var(--primary);
+}
+
+/* Define a área do perfil. */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Define o botão de entrar. */
+.login-btn {
+    background: var(--primary);
+    color: var(--bg);
+    padding: 8px 18px;
+    border-radius: 99px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+    transition: 0.2s;
+}
+.login-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* Define área do usuário logado. */
+.user-logged {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Define o avatar. */
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--primary);
+    color: var(--bg);
+    font-weight: 900;
+}
+
+/* Define botão sair. */
+.logout-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* Define a área principal. */
+main {
+    position: relative;
+    min-height: calc(100vh - 72px);
+}
+
+/* Define a seção principal. */
+.hero {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 110px 30px 80px;
+}
+
+/* Define a pequena etiqueta. */
+.tag {
+    color: var(--primary);
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* Define o título. */
+h1 {
+    font-size: clamp(44px, 7vw, 82px);
+    line-height: 0.95;
+    margin: 20px 0;
+    font-weight: 800;
+    letter-spacing: -2px;
+}
+
+/* Define o parágrafo. */
+.hero p {
+    max-width: 600px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-dim);
+}
+
+/* Define a área dos estilos selecionados. */
+.selected-styles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+/* Define cada estilo. */
+.style-chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 8px 14px;
+    color: var(--text);
+    font-size: 13px;
+}
+
+/* Define a área dos botões. */
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+/* Define o botão principal. */
+.primary-button {
+    border: none;
+    background: var(--primary);
+    color: var(--bg);
+    padding: 14px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 800;
+    transition: 0.2s;
+}
+
+/* Define o efeito do botão principal. */
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(214, 255, 0, 0.25);
+}
+
+/* Define o botão secundário. */
+.secondary-button {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 14px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.secondary-button:hover {
+    border-color: var(--text);
+}
+
+/* Define o painel de resultado. */
+.combination-result {
+    max-width: 600px;
+    margin-top: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+}
+
+/* Define o título do resultado. */
+.result-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+}
+
+/* Define o texto do resultado. */
+#resultText {
+    margin-top: 12px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* Define a pontuação. */
+#score {
+    margin-top: 8px;
+    color: var(--secondary);
+    font-weight: 700;
+}
+
+/* Define o painel de seleção. */
+.style-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90%, 500px);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    z-index: 20;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.6);
+}
+
+/* Esconde o painel quando necessário. */
+.hidden {
+    display: none !important;
+}
+
+/* Define o título do painel. */
+.style-panel h2 {
+    margin-bottom: 8px;
+}
+
+/* Define o texto do painel. */
+.style-panel p {
+    color: var(--text-dim);
+    margin-bottom: 20px;
+}
+
+/* Define as opções de estilo. */
+.style-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Define cada opção. */
+.style-option {
+    background: #1a1f2a;
+    border: 1px solid var(--border);
+    color: white;
+    padding: 14px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.style-option:hover {
+    border-color: var(--primary);
+}
+
+/* Define uma opção selecionada. */
+.style-option.selected {
+    border-color: var(--primary);
+    background: rgba(214, 255, 0, 0.15);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Define o seletor. */
+select {
+    width: 100%;
+    margin: 10px 0 20px;
+    padding: 12px;
+    background: #1a1f2a;
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+/* Melhora acessibilidade no foco. */
+a:focus-visible, button:focus-visible, select:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Adapta o menu para telas menores. */
+@media (max-width: 700px) {
+    nav {
+        display: none;
+    }
+    .hero {
+        padding-top: 70px;
+    }
+    h1 {
+        font-size: 48px;
+    }
+    .style-options {
+        grid-template-columns: 1fr;
+    }
+}

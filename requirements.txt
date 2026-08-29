@@ -1,0 +1,5 @@
+# Define o framework utilizado para criar nossa API.
+fastapi
+
+# Define o servidor utilizado para executar a aplicação FastAPI.
+uvicorn

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYXUS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Fundo animado -->
+    <div id="animationBackground" class="animation-background">
+        <div id="animationOne" class="animation-object"></div>
+        <div id="animationTwo" class="animation-object"></div>
+        <div id="animationThree" class="animation-object"></div>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Cabeçalho -->
+    <header class="navbar">
+        <div class="logo">NYXUS</div>
+        <nav>
+            <a href="#">Início</a><a href="#">Eventos</a><a href="#">Desafios</a><a href="#">Comunidade</a>
+        </nav>
+        <!-- ÁREA DO PERFIL - AGORA DINÂMICA -->
+        <div class="profile" id="profileArea">
+            <!-- Mostra quando NINGUÉM está logado -->
+            <a href="login.html" id="loginLink" class="login-btn">Entrar</a>
+            <!-- Mostra quando ALGUÉM está logado (começa escondido) -->
+            <div id="userInfo" class="user-logged hidden">
+                <div class="avatar" id="avatarLetter"></div>
+                <span id="userName"></span>
+                <button onclick="sair()" class="logout-btn">sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <span class="tag">SEU UNIVERSO GAMER</span>
+            <h1>Seu estilo.<br>Suas combinações.</h1>
+            <p id="description">O NYXUS combina seus estilos de jogo para criar uma experiência personalizada.</p>
+            <div id="selectedStyles" class="selected-styles"></div>
+            <div class="actions">
+                <button id="generateButton" class="primary-button">🔀 Nova combinação</button>
+                <button id="changeButton" class="secondary-button">Alterar estilos</button>
+            </div>
+            <div id="combinationResult" class="combination-result">
+                <span class="result-title">COMBINAÇÃO ATUAL</span>
+                <div id="resultText">Carregando combinação...</div>
+                <div id="score">Compatibilidade: --</div>
+            </div>
+        </section>
+
+        <section id="stylePanel" class="style-panel hidden">
+            <h2>Escolha seus estilos</h2>
+            <p>Escolha no máximo 3 estilos.</p>
+            <div class="style-options">
+                <button class="style-option" data-style="futebol">⚽ Futebol</button>
+                <button class="style-option" data-style="tiro">🎯 Tiro</button>
+                <button class="style-option" data-style="corrida">🏎‍🟀 Corrida</button>
+            </div>
+            <label for="animationAmount">Animações por estilo</label>
+            <select id="animationAmount"><option value="1">1 animação</option><option value="2">2 animações</option></select>
+            <button id="saveStyles" class="primary-button">Salvar combinação</button>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIXUS - Login</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="animation-background">
+  <div class="animation-object" id="animationOne"></div>
+  <div class="animation-object" id="animationTwo"></div>
+  <div class="animation-object" id="animationThree"></div>
+</div>
+<div class="overlay"></div>
+
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="logo">NIXUS</div>
+    <div class="tag">Acesso restrito</div>
+    <h1>Entrar</h1>
+    <p class="sub">Conecte-se para continuar.</p>
+
+    <form id="loginForm">
+      <label class="login-label">E-MAIL</label>
+      <input class="login-input" type="email" id="email" placeholder="seu@nixus.com" required>
+      
+      <label class="login-label">SENHA</label>
+      <input class="login-input" type="password" id="senha" placeholder="••••••••" required>
+
+      <button class="primary-button login-submit" type="submit">ENTRAR NO SISTEMA</button>
+    </form>
+
+    <div class="login-result" id="resultBox">
+      <div class="result-title" id="resultTitle">STATUS</div>
+      <div id="loginMsg"></div>
+    </div>
+  </div>
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>
