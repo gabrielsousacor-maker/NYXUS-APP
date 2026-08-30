@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYXUS - Catálogo</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="catalogo.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">NYXUS</div>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="#" class="nav-active">Catálogo</a>
+      <a href="#">Eventos</a>
+      <a href="#">Comunidade</a>
+    </nav>
+    <div class="user-info">
+      <div id="avatarLetter" class="avatar"></div>
+      <div>
+        <div id="userName"></div>
+        <div id="planoBadge" class="plano-badge"></div>
+      </div>
+      <button onclick="sair()">Sair</button>
+    </div>
+  </header>
+
+  <main class="catalogo-main">
+    <header class="catalogo-header">
+      <h1>Catálogo de Jogos</h1>
+      <p class="catalogo-sub">Escolha entre jogos grátis e premium</p>
+      <div class="catalogo-filtros">
+        <button class="filtro-btn active" data-filtro="todos">Todos</button>
+        <button class="filtro-btn" data-filtro="futebol">Futebol</button>
+        <button class="filtro-btn" data-filtro="corrida">Corrida</button>
+        <button class="filtro-btn" data-filtro="luta">Luta</button>
+        <button class="filtro-btn" data-filtro="construcao">Construção</button>
+      </div>
+    </header>
+
+    <section class="catalogo-secao">
+      <div class="secao-header">
+        <h2>Jogos Grátis</h2>
+      </div>
+      <div id="gridGratis" class="jogos-grid"></div>
+    </section>
+
+    <section class="catalogo-secao">
+      <div class="secao-header">
+        <h2>Jogos Premium <span class="plano-badge badge-premium">⭐ Premium</span></h2>
+      </div>
+      <div id="gridPremium" class="jogos-grid"></div>
+    </section>
+  </main>
+
+  <!-- Modal de assinatura -->
+  <div id="modalAssinatura" class="modal">
+    <div class="modal-content">
+      <h2>Escolha seu plano</h2>
+      <p>Desbloqueie todos os jogos premium e aproveite sem limites!</p>
+
+      <div class="planos">
+        <div class="plano-card plano-gratis">
+          <h3>🔓 Plano Grátis</h3>
+          <p>Acesso apenas aos jogos grátis.</p>
+          <button disabled>Já ativo</button>
+        </div>
+
+        <div class="plano-card plano-mensal">
+          <h3>💳 Plano Mensal</h3>
+          <p>R$ 19,90/mês</p>
+          <button onclick="assinarPlano('mensal')">Assinar</button>
+        </div>
+
+        <div class="plano-card plano-anual">
+          <h3>⭐ Plano Anual</h3>
+          <p>R$ 199,00/ano</p>
+          <button onclick="assinarPlano('anual')">Assinar</button>
+        </div>
+      </div>
+
+      <button onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Modal de introdução do jogo -->
+  <div id="modalJogo" class="modal">
+    <div class="modal-content">
+      <h2 id="modalJogoNome"></h2>
+      <p id="modalJogoDesc"></p>
+      <button id="modalJogoBtn" class="primary-button">▶ Jogar agora</button>
+      <button onclick="fecharModalJogo()">Fechar</button>
+    </div>
+  </div>
+
+  <script src="catalogo.js"></script>
+</body>
+</html>
