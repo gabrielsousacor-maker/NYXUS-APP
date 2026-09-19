@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NIXUS - Login</title>
+<title>NYXUS - Acesso</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="login.css">
 </head>
@@ -18,27 +18,159 @@
 
 <div class="login-wrapper">
   <div class="login-card">
-    <div class="logo">NIXUS</div>
-    <div class="tag">Acesso restrito</div>
-    <h1>Entrar</h1>
-    <p class="sub">Conecte-se para continuar.</p>
+    <div class="logo">NYXUS</div>
 
-    <form id="loginForm">
-      <label class="login-label">E-MAIL</label>
-      <input class="login-input" type="email" id="email" placeholder="seu@nixus.com" required>
-      
-      <label class="login-label">SENHA</label>
-      <input class="login-input" type="password" id="senha" placeholder="••••••••" required>
-
-      <button class="primary-button login-submit" type="submit">ENTRAR NO SISTEMA</button>
-    </form>
-
-    <div class="login-result" id="resultBox">
-      <div class="result-title" id="resultTitle">STATUS</div>
-      <div id="loginMsg"></div>
+    <!-- Abas -->
+    <div class="tabs">
+      <button class="tab active" id="tabEntrar" onclick="trocarAba('entrar')">Entrar</button>
+      <button class="tab" id="tabCadastro" onclick="trocarAba('cadastro')">Criar conta</button>
     </div>
+
+    <!-- Formulário de Login -->
+    <div id="painelEntrar">
+      <div class="tag">Acesso restrito</div>
+      <h1>Entrar</h1>
+      <p class="sub">Conecte-se para continuar.</p>
+
+      <form id="loginForm">
+        <label class="login-label">E-MAIL</label>
+        <input class="login-input" type="email" id="loginEmail" placeholder="seu@nyxus.com" required>
+
+        <label class="login-label">SENHA</label>
+        <div class="input-password-wrapper">
+          <input class="login-input" type="password" id="loginSenha" placeholder="••••••••" required>
+          <button type="button" class="toggle-password" id="toggleLogin" aria-label="Mostrar senha">
+            <svg id="iconShowLogin" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg id="iconHideLogin" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+
+        <button class="primary-button login-submit" type="submit">ENTRAR NO SISTEMA</button>
+      </form>
+
+      <div class="login-result" id="resultBoxLogin">
+        <div class="result-title" id="resultTitleLogin">STATUS</div>
+        <div id="loginMsg"></div>
+      </div>
+    </div>
+
+    <!-- Formulário de Cadastro -->
+    <div id="painelCadastro" style="display:none">
+      <div class="tag">Crie sua conta</div>
+      <h1>Cadastro</h1>
+      <p class="sub">Preencha os dados para começar.</p>
+
+      <form id="cadastroForm">
+        <label class="login-label">NOME</label>
+        <input class="login-input" type="text" id="cadastroNome" placeholder="Seu nome" required>
+
+        <label class="login-label">E-MAIL</label>
+        <input class="login-input" type="email" id="cadastroEmail" placeholder="seu@nyxus.com" required>
+
+        <label class="login-label">SENHA</label>
+        <div class="input-password-wrapper">
+          <input class="login-input" type="password" id="cadastroSenha" placeholder="••••••••" required>
+          <button type="button" class="toggle-password" id="toggleCadastro" aria-label="Mostrar senha">
+            <svg id="iconShowCadastro" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg id="iconHideCadastro" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+
+        <label class="login-label">CONFIRMAR SENHA</label>
+        <div class="input-password-wrapper">
+          <input class="login-input" type="password" id="cadastroConfirmar" placeholder="••••••••" required>
+          <button type="button" class="toggle-password" id="toggleConfirmar" aria-label="Mostrar senha">
+            <svg id="iconShowConfirmar" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg id="iconHideConfirmar" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+
+        <label class="login-label">CÓDIGO DE ACESSO</label>
+        <input class="login-input" type="text" id="cadastroCodigo" placeholder="NYXUS-XXXX-XXXX" required>
+
+        <button class="primary-button login-submit" type="submit">CRIAR CONTA</button>
+      </form>
+
+      <div class="login-result" id="resultBoxCadastro">
+        <div class="result-title" id="resultTitleCadastro">STATUS</div>
+        <div id="cadastroMsg"></div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+<style>
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    background: var(--bg-surface, #141414);
+    border: 1px solid var(--border, rgba(255,255,255,0.07));
+    border-radius: 999px;
+    padding: 4px;
+  }
+  .tab {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-secondary, #9a9a9a);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .tab.active {
+    background: var(--lima, #D6FF00);
+    color: #0d0d0d;
+  }
+  .input-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-password-wrapper .login-input {
+    width: 100%;
+    padding-right: 2.8rem;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted, #555);
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: color 0.2s;
+  }
+  .toggle-password:hover { color: var(--lima, #D6FF00); }
+</style>
 
 <script src="login.js"></script>
 </body>
