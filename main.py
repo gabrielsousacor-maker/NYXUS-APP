@@ -1,5 +1,5 @@
 # Importa o FastAPI, que será responsável por criar nossa API.
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 # Importa o middleware necessário para permitir que o frontend converse com o backend.
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,7 +16,7 @@ app = FastAPI(
     # Define o nome que aparecerá na documentação automática da API.
     title="Nyxus API",
     # Define a versão atual do projeto.
-    version="0.1.0"
+    version="0.2.0"
 )
 
 
@@ -187,6 +187,83 @@ ANIMATIONS = {
 }
 
 
+# Cria a biblioteca de eventos do Passo 3 (lista dinâmica do frontend).
+# Espelha os dados locais do app.js para que futuramente possam vir do banco de dados.
+EVENTS = [
+
+    # Define o primeiro evento: torneio de futebol ao vivo.
+    {
+        "id": 1,
+        "icon": "⚽",
+        "nome": "Copa NYXUS — Futebol Virtual",
+        "categoria": "futebol",
+        "meta": "32 equipes · Semifinal",
+        "status": "live",
+        "statusLabel": "AO VIVO",
+        "participantes": "1.240",
+        "premiacao": "R$ 5.000",
+        "descricao": (
+            "O maior torneio de futebol virtual da plataforma. "
+            "Enfrente equipes de todo o Brasil em partidas táticas de alto nível, "
+            "com transmissão ao vivo e comentários em tempo real."
+        )
+    },
+
+    # Define o segundo evento: desafio de tiro em breve.
+    {
+        "id": 2,
+        "icon": "🎯",
+        "nome": "Sniper Challenge S3",
+        "categoria": "tiro",
+        "meta": "Solo · Classificatória",
+        "status": "soon",
+        "statusLabel": "EM BREVE",
+        "participantes": "540",
+        "premiacao": "R$ 2.000",
+        "descricao": (
+            "Prove sua pontaria na terceira temporada do Sniper Challenge. "
+            "Mapas inéditos, modos de precisão extrema e um ranking global "
+            "que define os melhores atiradores da temporada."
+        )
+    },
+
+    # Define o terceiro evento: campeonato de corrida em breve.
+    {
+        "id": 3,
+        "icon": "🏎️",
+        "nome": "Grand Prix NYXUS",
+        "categoria": "corrida",
+        "meta": "Circuito aberto · 12 pistas",
+        "status": "soon",
+        "statusLabel": "EM BREVE",
+        "participantes": "320",
+        "premiacao": "R$ 1.500",
+        "descricao": (
+            "Um campeonato de corridas com 12 pistas exclusivas e sistema de upgrade de veículo. "
+            "A cada corrida, pontos são acumulados para o ranking final da temporada."
+        )
+    },
+
+    # Define o quarto evento: torneio encerrado.
+    {
+        "id": 4,
+        "icon": "🏆",
+        "nome": "NYXUS Open — Temporada 1",
+        "categoria": "futebol",
+        "meta": "Multi-estilo · Encerrado",
+        "status": "closed",
+        "statusLabel": "ENCERRADO",
+        "participantes": "2.800",
+        "premiacao": "R$ 10.000",
+        "descricao": (
+            "A primeira grande competição multi-estilo da plataforma. "
+            "Combinando futebol, tiro e corrida em uma disputa épica de três dias "
+            "que definiu os primeiros campeões da NYXUS."
+        )
+    }
+]
+
+
 # Cria uma função responsável por calcular a compatibilidade entre animações.
 def calculate_score(combination):
 
@@ -284,8 +361,8 @@ def home():
 
     # Retorna uma mensagem confirmando que a API está funcionando.
     return {
-        "message": "GameVerse API funcionando!",
-        "version": "0.1.0"
+        "message": "Nyxus API funcionando!",
+        "version": "0.2.0"
     }
 
 
@@ -345,3 +422,58 @@ def combinations(
         "amount": amount,
         "combinations": results
     }
+
+
+# Cria uma rota para listar todos os eventos (Passo 3 — lista dinâmica).
+# O frontend poderá substituir os dados locais do app.js por esta chamada futuramente.
+@app.get("/events")
+def events(
+    # Permite filtrar eventos por status: live, soon ou closed.
+    status: str = None,
+    # Permite filtrar eventos por categoria: futebol, tiro ou corrida.
+    categoria: str = None
+):
+
+    # Começa com a lista completa de eventos.
+    resultado = EVENTS
+
+    # Aplica o filtro de status caso tenha sido informado.
+    if status:
+        resultado = [
+            event for event in resultado
+            if event["status"] == status.strip().lower()
+        ]
+
+    # Aplica o filtro de categoria caso tenha sido informado.
+    if categoria:
+        resultado = [
+            event for event in resultado
+            if event["categoria"] == categoria.strip().lower()
+        ]
+
+    # Retorna a lista de eventos encontrados e o total.
+    return {
+        "total": len(resultado),
+        "events": resultado
+    }
+
+
+# Cria uma rota para buscar um evento específico pelo ID (Passo 4 — tela de detalhes).
+# O frontend usa esta rota ao abrir o overlay de detalhe de um evento da lista.
+@app.get("/events/{event_id}")
+def event_detail(event_id: int):
+
+    # Percorre a lista de eventos procurando pelo ID recebido.
+    for event in EVENTS:
+
+        # Verifica se o ID do evento atual corresponde ao buscado.
+        if event["id"] == event_id:
+
+            # Retorna os dados completos do evento encontrado.
+            return event
+
+    # Retorna erro 404 caso nenhum evento com esse ID seja encontrado.
+    raise HTTPException(
+        status_code=404,
+        detail=f"Evento com id {event_id} não encontrado."
+    )
