@@ -186,4 +186,3 @@ function assinarPlano(tipo) {
   const novoPlano = carregarSessao();
   renderizarJogos('todos', novoPlano);
 }
-
