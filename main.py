@@ -9,7 +9,7 @@ from itertools import product
 
 # Importa o módulo random para criar pequenas variações nas pontuações.
 import random
-
+from auth import router as auth_router
 
 # Cria a aplicação principal do FastAPI.
 app = FastAPI(
@@ -34,6 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
 
 # Cria nossa biblioteca inicial de animações.
 ANIMATIONS = {
