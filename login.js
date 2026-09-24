@@ -1,13 +1,7 @@
 // login.js — login + cadastro em uma tela só
 
-// Códigos de acesso válidos gerados por vocês
-const codigosValidos = [
-  'NYXUS-A1B2-C3D4',
-  'NYXUS-E5F6-G7H8',
-  'NYXUS-I9J0-K1L2',
-  'NYXUS-M3N4-O5P6',
-  'NYXUS-Q7R8-S9T0',
-];
+// Endereço do backend (ajuste se o servidor rodar em outra porta/host).
+const API_BASE = 'http://127.0.0.1:8000';
 
 // ============================================================
 // Troca de aba — Entrar / Criar conta
@@ -65,9 +59,25 @@ document.getElementById('toggleConfirmar').addEventListener('click', () => {
 });
 
 // ============================================================
+// Guarda os dados da conta (inclui o selo BETA) e redireciona
+// ============================================================
+function entrarComConta(conta) {
+  localStorage.setItem('nyxus_user', conta.email);
+  localStorage.setItem('nyxus_nome', conta.nome);
+  localStorage.setItem('nyxus_plano', conta.plano);
+  localStorage.setItem('nyxus_beta', conta.flags.beta ? '1' : '0');
+  localStorage.setItem('nyxus_vitalicio', conta.flags.vitalicio ? '1' : '0');
+  localStorage.setItem('nyxus_atendimento_especial', conta.flags.atendimento_especial ? '1' : '0');
+
+  setTimeout(() => {
+    window.location.href = 'catalogo.html';
+  }, 1500);
+}
+
+// ============================================================
 // Formulário de Login
 // ============================================================
-document.getElementById('loginForm').addEventListener('submit', (e) => {
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const email = document.getElementById('loginEmail').value.trim();
@@ -85,21 +95,38 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
     return;
   }
 
-  box.className    = 'login-result show success';
-  title.textContent= 'SUCESSO';
-  msg.textContent  = `Logado como ${email}. Redirecionando...`;
+  try {
+    const resposta = await fetch(`${API_BASE}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha }),
+    });
 
-  localStorage.setItem('nyxus_user', email);
+    const dados = await resposta.json();
 
-  setTimeout(() => {
-    window.location.href = 'catalogo.html';
-  }, 1500);
+    if (!resposta.ok) {
+      box.className    = 'login-result show error';
+      title.textContent= 'ERRO';
+      msg.textContent  = dados.detail || 'E-mail ou senha incorretos.';
+      return;
+    }
+
+    box.className    = 'login-result show success';
+    title.textContent= dados.flags.beta ? 'SUCESSO (BETA)' : 'SUCESSO';
+    msg.textContent  = `Logado como ${dados.email}. Redirecionando...`;
+
+    entrarComConta(dados);
+  } catch (erro) {
+    box.className    = 'login-result show error';
+    title.textContent= 'ERRO';
+    msg.textContent  = 'Não foi possível conectar ao servidor. Tente novamente.';
+  }
 });
 
 // ============================================================
 // Formulário de Cadastro
 // ============================================================
-document.getElementById('cadastroForm').addEventListener('submit', (e) => {
+document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const nome     = document.getElementById('cadastroNome').value.trim();
@@ -127,22 +154,30 @@ document.getElementById('cadastroForm').addEventListener('submit', (e) => {
     return;
   }
 
-  if (!codigosValidos.includes(codigo)) {
+  try {
+    const resposta = await fetch(`${API_BASE}/cadastro`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, email, senha, codigo }),
+    });
+
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+      box.className    = 'login-result show error';
+      title.textContent= resposta.status === 409 ? 'E-MAIL JÁ EXISTE' : 'CÓDIGO INVÁLIDO';
+      msg.textContent  = dados.detail || 'O código informado não existe ou já foi utilizado.';
+      return;
+    }
+
+    box.className    = 'login-result show success';
+    title.textContent= dados.flags.beta ? 'BEM-VINDO (BETA)' : 'SUCESSO';
+    msg.textContent  = `Bem-vindo, ${dados.nome}! Redirecionando...`;
+
+    entrarComConta(dados);
+  } catch (erro) {
     box.className    = 'login-result show error';
-    title.textContent= 'CÓDIGO INVÁLIDO';
-    msg.textContent  = 'O código informado não existe ou já foi utilizado.';
-    return;
+    title.textContent= 'ERRO';
+    msg.textContent  = 'Não foi possível conectar ao servidor. Tente novamente.';
   }
-
-  box.className    = 'login-result show success';
-  title.textContent= 'SUCESSO';
-  msg.textContent  = `Bem-vindo, ${nome}! Redirecionando...`;
-
-  localStorage.setItem('nyxus_user', email);
-  localStorage.setItem('nyxus_nome', nome);
-  localStorage.setItem('nyxus_plano', 'premium');
-
-  setTimeout(() => {
-    window.location.href = 'catalogo.html';
-  }, 1500);
 });
