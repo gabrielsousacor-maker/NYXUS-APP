@@ -3,3 +3,6 @@ fastapi
 
 # Define o servidor utilizado para executar a aplicação FastAPI.
 uvicorn
+
+# Define o token de autenticação JWT para proteger as rotas da API.
+pyjwt

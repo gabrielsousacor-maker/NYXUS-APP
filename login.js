@@ -63,6 +63,7 @@ document.getElementById('toggleConfirmar').addEventListener('click', () => {
 // ============================================================
 function entrarComConta(conta) {
   localStorage.setItem('nyxus_user', conta.email);
+  localStorage.setItem('nyxus_token', conta.token);
   localStorage.setItem('nyxus_nome', conta.nome);
   localStorage.setItem('nyxus_plano', conta.plano);
   localStorage.setItem('nyxus_beta', conta.flags.beta ? '1' : '0');

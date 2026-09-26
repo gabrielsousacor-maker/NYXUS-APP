@@ -18,6 +18,18 @@ router = APIRouter()
 BASE = Path(__file__).parent
 BANCO = BASE / "nyxus.db"
 
+import jwt
+from datetime import timedelta
+
+# Chave secreta usada para "assinar" o crachá (troque por algo só seu antes de lançar de verdade).
+SECRET_KEY = "troque-isso-por-um-texto-aleatorio-bem-grande"
+
+def criar_token(usuario):
+    # Monta o crachá: guarda o e-mail e uma data de validade (7 dias).
+    validade = datetime.now(timezone.utc) + timedelta(days=7)
+    payload = {"email": usuario["email"], "exp": validade}
+    return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
 # Tipos de código e o que cada um dá para a conta criada com ele.
 # Para criar outro tipo no futuro, basta adicionar mais uma entrada aqui.
 TIPOS = {
@@ -202,7 +214,9 @@ def cadastro(dados: DadosCadastro):
     finally:
         con.close()
 
-    return dados_da_conta(usuario)
+    conta = dados_da_conta(usuario)
+    conta["token"] = criar_token(usuario)
+    return conta
 
 
 @router.post("/login")
@@ -226,4 +240,6 @@ def login(dados: DadosLogin):
     if not hmac.compare_digest(usuario["senha_hash"], hash_informado):
         raise erro
 
-    return dados_da_conta(usuario)
+    conta = dados_da_conta(usuario)
+    conta["token"] = criar_token(usuario)
+    return conta
