@@ -30,6 +30,38 @@ def criar_token(usuario):
     payload = {"email": usuario["email"], "exp": validade}
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
+# Guarda quantas vezes cada e-mail errou a senha e até quando fica bloqueado.
+# (fica só na memória do servidor — reseta se você reiniciar o uvicorn)
+tentativas_login = {}
+
+MAX_TENTATIVAS = 5
+BLOQUEIO_MINUTOS = 5
+
+def checar_bloqueio(email):
+    # Vê se esse e-mail está bloqueado agora. Se estiver, avisa quanto falta.
+    dados = tentativas_login.get(email)
+    if dados and dados["bloqueado_ate"]:
+        if datetime.now(timezone.utc) < dados["bloqueado_ate"]:
+            minutos_restantes = int((dados["bloqueado_ate"] - datetime.now(timezone.utc)).total_seconds() / 60) + 1
+            raise HTTPException(
+                status_code=429,
+                detail=f"Muitas tentativas erradas. Tente de novo em {minutos_restantes} minuto(s).",
+            )
+        else:
+            # O bloqueio já passou, começa do zero.
+            tentativas_login.pop(email, None)
+
+def registrar_erro(email):
+    # Soma mais um erro pra esse e-mail; bloqueia se bater o máximo.
+    dados = tentativas_login.setdefault(email, {"erros": 0, "bloqueado_ate": None})
+    dados["erros"] += 1
+    if dados["erros"] >= MAX_TENTATIVAS:
+        dados["bloqueado_ate"] = datetime.now(timezone.utc) + timedelta(minutes=BLOQUEIO_MINUTOS)
+
+def limpar_tentativas(email):
+    # Login certo: esquece os erros anteriores.
+    tentativas_login.pop(email, None)
+
 # Tipos de código e o que cada um dá para a conta criada com ele.
 # Para criar outro tipo no futuro, basta adicionar mais uma entrada aqui.
 TIPOS = {
@@ -223,6 +255,8 @@ def cadastro(dados: DadosCadastro):
 def login(dados: DadosLogin):
     email = dados.email.strip().lower()
 
+    checar_bloqueio(email)
+
     con = conectar()
     try:
         usuario = con.execute(
@@ -234,11 +268,15 @@ def login(dados: DadosLogin):
     # A mesma mensagem para e-mail errado ou senha errada, de propósito.
     erro = HTTPException(status_code=401, detail="E-mail ou senha incorretos.")
     if usuario is None:
+        registrar_erro(email)
         raise erro
 
     hash_informado = gerar_hash(dados.senha, usuario["salt"])
     if not hmac.compare_digest(usuario["senha_hash"], hash_informado):
+        registrar_erro(email)
         raise erro
+
+    limpar_tentativas(email)
 
     conta = dados_da_conta(usuario)
     conta["token"] = criar_token(usuario)
