@@ -47,8 +47,8 @@ const jogos = [
   { id: 3, nome: 'Fightingame JS', categoria: 'luta', categoriaLabel: '🥊 Luta', emoji: '🥊', cor: '#2b0d0d', desc: 'Luta estilo Street Fighter direto no navegador. Sem instalação.', url: 'https://www.fightingame.net', premium: false },
   { id: 4, nome: 'Minetest', categoria: 'construcao', categoriaLabel: '🧱 Construção', emoji: '🧱', cor: '#2b1a0d', desc: 'Clone open source do Minecraft. Construa mundos sem limites.', url: 'https://www.minetest.net', premium: true },
   { id: 5, nome: 'Speed Dreams', categoria: 'corrida', categoriaLabel: '🏎️ Corrida', emoji: '🚀', cor: '#0d1a2b', desc: 'Simulador de corrida open source com física realista e várias pistas.', url: 'https://www.speed-dreams.net', premium: true },
-  { id: 6, nome: 'OpenBOR', categoria: 'luta', categoriaLabel: '🥊 Luta', emoji: '⚔️', cor: '#2b0d1a', desc: 'Engine de luta open source. Batalhas épicas estilo beat em up.', url: 'https://www.chronocrash.com/openbor', premium: true }
-];
+  { id: 6, nome: 'OpenBOR', categoria: 'luta', categoriaLabel: '🥊 Luta', emoji: '⚔️', cor: '#2b0d1a', desc: 'Engine de luta open source. Batalhas épicas estilo beat em up.', url: 'https://www.chronocrash.com/openbor', premium: true },
+  { id: 7, nome: 'SOC Workspace', categoria: 'cyber', categoriaLabel: '🛡️ Cyber', emoji: '🛡️', cor: '#0d2b2b', desc: 'Simulação de treino de analista de SOC. Investigue ocórrencias, use o terminal e bloqueie ameaças com a ajuda do Nyxus AI.', url: 'soc-workspace/index.html', premium: false }];
 
 // ============================================================
 // Renderiza os cards

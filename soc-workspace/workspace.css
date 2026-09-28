@@ -1,0 +1,463 @@
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#0d1117;
+    color:white;
+    height:100vh;
+    overflow:hidden;
+}
+
+header{
+    background:#161b22;
+    padding:14px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #30363d;
+}
+
+header h1{
+    margin:0;
+    font-size:20px;
+}
+
+.status-bar{
+    display:flex;
+    gap:20px;
+    font-size:14px;
+}
+
+.workspace-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap:14px;
+    padding:14px;
+    height:calc(100vh - 64px);
+    box-sizing:border-box;
+}
+
+.panel{
+    background:#161b22;
+    border:1px solid #21262d;
+    border-radius:10px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+.panel h2{
+    margin:0 0 10px 0;
+    font-size:16px;
+    border-bottom:1px solid #30363d;
+    padding-bottom:8px;
+}
+
+.muted{
+    color:#8b949e;
+    font-size:13px;
+}
+
+/* ---- Ocorrência ---- */
+
+.incident-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.priority-badge{
+    padding:4px 10px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+    background:#30363d;
+}
+
+.priority-badge.LOW{ background:#1a7f37; }
+.priority-badge.MEDIUM{ background:#9e6a03; }
+.priority-badge.HIGH{ background:#bc4c00; }
+.priority-badge.CRITICAL{ background:#b62324; }
+
+.boss-priority.LOW{ background:#1a7f37; }
+.boss-priority.MEDIUM{ background:#9e6a03; }
+.boss-priority.HIGH{ background:#bc4c00; }
+.boss-priority.CRITICAL{ background:#b62324; }
+
+.timer{
+    font-family:monospace;
+    font-size:18px;
+    font-weight:bold;
+    color:#58a6ff;
+}
+
+.timer.low-time{
+    color:#f85149;
+    animation: blinkTimer 1s infinite;
+}
+
+@keyframes blinkTimer{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.4; }
+}
+
+#incidentTitle{
+    margin:6px 0;
+}
+
+#incidentDescription{
+    font-size:14px;
+    color:#c9d1d9;
+}
+
+.checklist{
+    list-style:none;
+    padding:0;
+    margin-top:10px;
+    font-size:13px;
+}
+
+.checklist li{
+    margin-bottom:6px;
+    color:#8b949e;
+}
+
+.checklist li.done{
+    color:#3fb950;
+}
+
+/* ---- Painel de IPs ---- */
+
+.ip-info-box{
+    font-size:13px;
+    overflow-y:auto;
+}
+
+.ip-record{
+    background:#0d1117;
+    border:1px solid #30363d;
+    border-radius:6px;
+    padding:10px;
+    margin-bottom:8px;
+}
+
+.ip-record .ip-title{
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+.verdict-malicious{
+    color:#f85149;
+    font-weight:bold;
+}
+
+.verdict-clean{
+    color:#3fb950;
+    font-weight:bold;
+}
+
+.confirm-btn{
+    margin-top:8px;
+    background:#9e6a03;
+    font-size:12px;
+    padding:6px 10px;
+}
+
+.confirm-btn:hover{
+    background:#bb8009;
+}
+
+.confirmed-tag{
+    margin-top:8px;
+    color:#3fb950;
+    font-weight:bold;
+    font-size:12px;
+}
+
+/* ---- Terminal ---- */
+
+.terminal-output{
+    flex:1;
+    overflow-y:auto;
+    font-family:monospace;
+    font-size:13px;
+    background:#010409;
+    border-radius:6px;
+    padding:10px;
+    margin-bottom:8px;
+}
+
+.terminal-output .cmd-echo{
+    color:#58a6ff;
+}
+
+.terminal-output .log-line{
+    color:#c9d1d9;
+}
+
+.terminal-output .warn-text{
+    color:#e3b341;
+}
+
+.terminal-output .success-text{
+    color:#3fb950;
+}
+
+.terminal-output .critical-text{
+    color:#f85149;
+}
+
+.terminal-output .low-text{
+    color:#3fb950;
+}
+
+.terminal-output .muted-text{
+    color:#8b949e;
+    font-style:italic;
+}
+
+.terminal-input-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#010409;
+    border-radius:6px;
+    padding:8px 10px;
+}
+
+.prompt{
+    color:#58a6ff;
+    font-family:monospace;
+}
+
+#terminalInput{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:white;
+    font-family:monospace;
+    font-size:13px;
+}
+
+/* ---- Navegador ---- */
+
+.browser-bar{
+    display:flex;
+    gap:8px;
+    margin-bottom:8px;
+}
+
+#browserUrl{
+    flex:1;
+    padding:8px 10px;
+    border-radius:6px;
+    border:1px solid #30363d;
+    background:#0d1117;
+    color:white;
+}
+
+.bookmarks{
+    display:flex;
+    gap:6px;
+    margin-bottom:10px;
+}
+
+.bookmarks button{
+    background:#21262d;
+    font-size:12px;
+    padding:6px 10px;
+}
+
+.browser-content{
+    flex:1;
+    background:#0d1117;
+    color:#c9d1d9;
+    border-radius:6px;
+    padding:14px;
+    overflow-y:auto;
+    font-size:13px;
+    border:1px solid #30363d;
+}
+
+.browser-content h3{
+    margin-top:0;
+    color:white;
+}
+
+.browser-content input{
+    padding:6px 8px;
+    border:1px solid #30363d;
+    border-radius:4px;
+    margin-right:6px;
+    background:#161b22;
+    color:white;
+}
+
+.browser-content button{
+    background:#0969da;
+    color:white;
+    padding:6px 12px;
+    font-size:13px;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+button{
+    padding:8px 14px;
+    cursor:pointer;
+    background:#238636;
+    color:white;
+    border:none;
+    border-radius:6px;
+}
+
+button:hover{
+    background:#2ea043;
+}
+
+/* ---- Overlays (tela inicial e mensagem do chefe) ---- */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(1,4,9,0.85);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+}
+
+.overlay.hidden{
+    display:none;
+}
+
+.start-box{
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:12px;
+    padding:28px 32px;
+    width:340px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.start-box h1{
+    margin:0 0 4px 0;
+}
+
+.start-box label{
+    font-size:13px;
+    color:#8b949e;
+    margin-top:6px;
+}
+
+.start-box input{
+    padding:10px 12px;
+    border-radius:6px;
+    border:1px solid #30363d;
+    background:#0d1117;
+    color:white;
+    font-size:14px;
+}
+
+.difficulty-options{
+    display:flex;
+    gap:8px;
+}
+
+.difficulty-btn{
+    flex:1;
+    background:#21262d;
+    font-size:13px;
+    padding:8px 6px;
+}
+
+.difficulty-btn.selected{
+    background:#0969da;
+}
+
+#startButton{
+    margin-top:14px;
+    font-weight:bold;
+}
+
+/* ---- Balão de mensagem do chefe (Nyxus AI) ---- */
+
+.boss-box{
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:12px;
+    padding:24px;
+    width:420px;
+    max-width:90vw;
+}
+
+.boss-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+    padding-bottom:12px;
+    border-bottom:1px solid #30363d;
+}
+
+.boss-avatar{
+    font-size:32px;
+    background:#0d1117;
+    border-radius:50%;
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #30363d;
+}
+
+.boss-name{
+    font-weight:bold;
+    font-size:15px;
+}
+
+.boss-role{
+    font-size:12px;
+    color:#8b949e;
+}
+
+.boss-body{
+    font-size:14px;
+    line-height:1.5;
+    color:#c9d1d9;
+    margin-bottom:16px;
+}
+
+.boss-body strong{
+    color:white;
+}
+
+.boss-body .boss-priority{
+    display:inline-block;
+    padding:2px 8px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+    margin:4px 0 10px 0;
+}
+
+.boss-body ul{
+    margin:8px 0 0 0;
+    padding-left:20px;
+}
+
+.boss-body li{
+    margin-bottom:4px;
+}
+
+#bossAckButton{
+    width:100%;
+    font-weight:bold;
+}

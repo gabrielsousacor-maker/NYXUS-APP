@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Workspace</title>
+    <link rel="stylesheet" href="workspace.css">
+</head>
+<body>
+
+<!-- Tela inicial -->
+<div id="startScreen" class="overlay">
+    <div class="start-box">
+        <h1>SOC Workspace</h1>
+        <p class="muted">Antes de começar, o Nyxus AI precisa te conhecer.</p>
+
+        <label for="playerNameInput">Seu nome/apelido</label>
+        <input type="text" id="playerNameInput" placeholder="ex: Murilo" autocomplete="off">
+
+        <label>Dificuldade</label>
+        <div class="difficulty-options" id="difficultyOptions">
+            <button type="button" class="difficulty-btn" data-diff="facil">Fácil</button>
+            <button type="button" class="difficulty-btn selected" data-diff="normal">Normal</button>
+            <button type="button" class="difficulty-btn" data-diff="dificil">Difícil</button>
+        </div>
+
+        <button id="startButton">Começar turno</button>
+    </div>
+</div>
+
+<!-- Mensagem do chefe (Nyxus AI) -->
+<div id="bossOverlay" class="overlay hidden">
+    <div class="boss-box">
+        <div class="boss-header">
+            <span class="boss-avatar">😎</span>
+            <div>
+                <div class="boss-name">Nyxus AI</div>
+                <div class="boss-role">Chefe de plantão</div>
+            </div>
+        </div>
+        <div id="bossMessageBody" class="boss-body"></div>
+        <button id="bossAckButton">Show, vou resolver!</button>
+    </div>
+</div>
+
+<header>
+    <h1>SOC Workspace</h1>
+    <div class="status-bar">
+        <span id="difficultyLabel">Dificuldade: Normal</span>
+        <span>Resolvidas: <strong id="resolvedCount">0</strong></span>
+        <span>Penalidade: <strong id="penaltyCount">0</strong></span>
+    </div>
+</header>
+
+<div class="workspace-grid">
+
+    <!-- Ocorrência ativa -->
+    <div class="panel" id="incidentPanel">
+        <h2>Ocorrência Ativa</h2>
+        <div class="incident-header">
+            <span id="incidentPriority" class="priority-badge">-</span>
+            <span id="incidentTimer" class="timer">00:00</span>
+        </div>
+        <h3 id="incidentTitle">-</h3>
+        <p id="incidentDescription">-</p>
+        <ul class="checklist">
+            <li id="checkLogs">☐ Logs verificados</li>
+            <li id="checkWhois">☐ Reputação/Whois verificado</li>
+        </ul>
+    </div>
+
+    <!-- Painel de IPs -->
+    <div class="panel" id="ipPanel">
+        <h2>Painel de Localização de IPs</h2>
+        <div id="ipInfoBox" class="ip-info-box">
+            <p class="muted">Nenhum IP consultado ainda.</p>
+        </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="panel" id="terminalPanel">
+        <h2>Terminal</h2>
+        <div id="terminalOutput" class="terminal-output"></div>
+        <div class="terminal-input-row">
+            <span class="prompt">&gt;</span>
+            <input type="text" id="terminalInput" placeholder="ex: check logs / whois 45.88.23.77 / block ip 45.88.23.77" autocomplete="off">
+        </div>
+    </div>
+
+    <!-- Navegador -->
+    <div class="panel" id="browserPanel">
+        <h2>Navegador</h2>
+        <div class="browser-bar">
+            <input type="text" id="browserUrl" placeholder="ipinfo.local / threatintel.local / wiki.local/runbook">
+            <button onclick="goToUrl()">Ir</button>
+        </div>
+        <div class="bookmarks">
+            <button onclick="navigate('ipinfo.local')">ipinfo.local</button>
+            <button onclick="navigate('threatintel.local')">threatintel.local</button>
+            <button onclick="navigate('wiki.local/runbook')">wiki.local/runbook</button>
+        </div>
+        <div id="browserContent" class="browser-content">
+            <p>Use os atalhos acima ou digite um endereço (ex: ipinfo.local).</p>
+        </div>
+    </div>
+
+</div>
+
+<script src="workspace.js"></script>
+</body>
+</html>
