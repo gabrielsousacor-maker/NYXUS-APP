@@ -96,6 +96,55 @@
     </div>
   </div>
 
+  <!-- Modal de jogo embutido -->
+  <div id="modalJogoEmbed" class="jogo-embed-overlay">
+    <div class="jogo-embed-topbar">
+      <span id="jogoEmbedNome"></span>
+      <button onclick="fecharJogoEmbed()">✕ Voltar ao catálogo</button>
+    </div>
+    <iframe id="jogoEmbedFrame" src="" allowfullscreen></iframe>
+  </div>
+
+  <style>
+    .jogo-embed-overlay{
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:1000;
+      background:#000;
+      flex-direction:column;
+    }
+    .jogo-embed-overlay.open{
+      display:flex;
+    }
+    .jogo-embed-topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 16px;
+      background:#161b22;
+      border-bottom:1px solid #30363d;
+      color:white;
+      font-family:Arial, sans-serif;
+    }
+    .jogo-embed-topbar button{
+      background:#21262d;
+      color:white;
+      border:none;
+      padding:8px 14px;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .jogo-embed-topbar button:hover{
+      background:#30363d;
+    }
+    #jogoEmbedFrame{
+      flex:1;
+      width:100%;
+      border:none;
+    }
+  </style>
+
   <script src="catalogo.js"></script>
 </body>
 </html>
