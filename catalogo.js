@@ -94,18 +94,64 @@ function criarCard(jogo, plano, visivel) {
 }
 
 // ============================================================
+// Pré-carregamento: deixa os jogos reais já carregando escondidos
+// assim que a página abre, pra abrir na hora quando clicar em Jogar
+// ============================================================
+function preCarregarJogos() {
+  const preload = document.getElementById('jogoPreloadContainer');
+  if (!preload) return;
+
+  jogos.forEach(jogo => {
+    // Só pré-carrega o que sabemos que funciona embutido: jogos do
+    // Internet Archive e arquivos do próprio site (ex: SOC Workspace).
+    const podePrecarregar = jogo.url.startsWith('https://archive.org/embed/') || !jogo.url.startsWith('http');
+    if (!podePrecarregar) return;
+
+    const iframe = document.createElement('iframe');
+    iframe.src = jogo.url;
+    iframe.dataset.jogoUrl = jogo.url;
+    iframe.className = 'jogo-preload-frame';
+    iframe.allowFullscreen = true;
+    preload.appendChild(iframe);
+  });
+}
+
+// ============================================================
 // Abre o jogo embutido, sem sair do catálogo
 // ============================================================
 function jogar(url, nome) {
-  document.getElementById('jogoEmbedFrame').src = url;
+  const container = document.getElementById('jogoEmbedFrame');
+  container.innerHTML = '';
+
+  // Se já tem um iframe pré-carregado pra esse jogo, reaproveita ele
+  // (já está carregado/carregando, não recomeça do zero).
+  let iframe = document.querySelector(`.jogo-preload-frame[data-jogo-url="${url}"]`);
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.allowFullscreen = true;
+  }
+
+  container.appendChild(iframe);
   document.getElementById('jogoEmbedNome').textContent = nome || '';
   document.getElementById('modalJogoEmbed').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function fecharJogoEmbed() {
+  const container = document.getElementById('jogoEmbedFrame');
+  const preload = document.getElementById('jogoPreloadContainer');
+  const iframe = container.querySelector('iframe');
+
+  if (iframe && iframe.classList.contains('jogo-preload-frame')) {
+    // Devolve pro "estoque" escondido — continua carregado, pronto pra
+    // abrir instantâneo da próxima vez.
+    preload.appendChild(iframe);
+  } else if (iframe) {
+    iframe.remove();
+  }
+
   document.getElementById('modalJogoEmbed').classList.remove('open');
-  document.getElementById('jogoEmbedFrame').src = '';
   document.body.style.overflow = '';
 }
 
@@ -179,6 +225,7 @@ const planoAtual = carregarSessao();
 renderizarJogos('todos', planoAtual);
 iniciarFiltros(planoAtual);
 iniciarFundo();
+preCarregarJogos();
 
 function assinarPlano(tipo) {
   // Se já está no plano mensal, não deixa assinar de novo

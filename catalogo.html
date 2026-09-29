@@ -102,8 +102,11 @@
       <span id="jogoEmbedNome"></span>
       <button onclick="fecharJogoEmbed()">✕ Voltar ao catálogo</button>
     </div>
-    <iframe id="jogoEmbedFrame" src="" allowfullscreen></iframe>
+    <div id="jogoEmbedFrame" class="jogo-embed-frame-wrap"></div>
   </div>
+
+  <!-- Jogos pré-carregados escondidos (ficam prontos assim que a página abre) -->
+  <div id="jogoPreloadContainer" style="display:none;"></div>
 
   <style>
     .jogo-embed-overlay{
@@ -138,10 +141,16 @@
     .jogo-embed-topbar button:hover{
       background:#30363d;
     }
-    #jogoEmbedFrame{
+    .jogo-embed-frame-wrap{
       flex:1;
+      display:flex;
+    }
+    .jogo-embed-frame-wrap iframe,
+    .jogo-preload-frame{
       width:100%;
+      height:100%;
       border:none;
+      flex:1;
     }
   </style>
 
